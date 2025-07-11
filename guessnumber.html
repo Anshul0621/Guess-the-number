@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess The Number</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="bg-black text-white">
+    <div class="flex items-center justify-center text-3xl">
+        <h1 class="font-bold">Guess The Number</h1>
+    </div>
+    <div class="h-[80vh] items-center bg-zinc-500 my-6 flex flex-col p-4">
+        <p class="text-sm">Try and guess a random number between 1 to 100.</p>
+        <p class="text-xs">You have 10 attempts to guess the right number</p>
+        <h1 class="text-4xl font-semibold mb-5 mt-10 ">Guess The Number</h1>
+        <form class="flex flex-col items-center mb-10">
+            <input type="number" placeholder="Your number" class="border border-zinc-700 p-2 border-4 bg-white text-black focus:outline-none rounded-lg" id="InpField">
+            <button type="submit" id="submitbtn" class="border w-40 border-zinc-700 border-2 bg-black mt-5 rounded-lg active:bg-zinc-900  p-3 font-semibold text-xl cursor-pointer ">Submit guess</button>
+        </form>
+        <h3>Previous Guesses: <span id="prev" class="bg-zinc-700 p-1">0</span></h3>
+        <h3>Guesses Remaining: <span class="guess">10</span></h3>
+        <h1 class="bg-black p-1 m-4 rnd">1</h1>
+        <div id="Congo" class="w-40 flex items-center justify-center p-10 bg-green-600 z-10 absolute top-65 invisible"><h1>Congratulations</h1></div>
+        <button type="submit" class="absolute left-10 bottom-20 bg-red-700 p-2 rounded-lg w-20 font-bold" id="reset">Reset</button>
+
+
+
+        <script>
+            let randnum = Math.floor(Math.random()*100+1)
+            let formm = document.querySelector('form')
+            let input = document.querySelector('#InpField')
+            let prevarr=[]
+            let prevbox = document.querySelector('#prev')
+            let guessbox = document.querySelector('.guess')
+            let congo=document.querySelector("#Congo")
+            let submitbtn = document.querySelector('#submitbtn')
+            let resetbtn = document.querySelector('#reset')
+            
+
+            resetbtn.addEventListener('click',(e)=>{
+                location.reload()
+            })
+            
+            
+            document.querySelector('.rnd').innerHTML=randnum
+            formm.addEventListener('submit',(e)=>{
+                let rawguess = input.value.trim()
+                let guess = Number(rawguess)
+                e.preventDefault()
+                console.log('form submitted')
+                if(guess==0 || isNaN(guess)){
+                    return
+                }else{
+                    prevarr.push(guess)
+                }
+                
+                prevbox.innerHTML=prevarr
+                formm.reset()
+                guessbox.innerHTML = Number(guessbox.innerHTML)-1    
+                
+                
+
+                if(guess==randnum){
+                    congo.classList.remove('invisible')
+                    congo.classList.add('visible')
+                }
+                if(guessbox.innerHTML==0){
+                    submitbtn.disabled=true
+                    submitbtn.classList.remove('cursor-pointer')
+                    submitbtn.classList.remove('active:bg-zinc-900')
+                    submitbtn.classList.add('cursor-not-allowed')
+                    submitbtn.innerHTML='Try Again'
+                }
+                
+                if(rawguess==''||isNaN(guess)){
+                    alert('Only number is allowed')
+                    return
+                }
+            })
+            
+            
+            
+        </script>
+
+    </div>
+    
+</body>
+</html>
